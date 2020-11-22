@@ -145,7 +145,7 @@ def cargar_variables(modelo, datos):
         vars['delta'][(p, q, s)] = modelo.addVar(vtype='B', name= 'delta_{},{},{}'.format(p, q, s))
   # m
   for s in datos['S']:
-    vars['m'][s] = modelo.addVar(vtype='I', name= 'm_{}'.format(s))
+    vars['m'][s] = modelo.addVar(vtype='C', name= 'm_{}'.format(s))
   # u_
   for q in datos['Q']:
     for s in datos['S']:
@@ -157,13 +157,13 @@ def cargar_variables(modelo, datos):
   for p in datos['P']:
     for q in datos['Q']:
       for s in datos['S']:
-        vars['gE_pqs'][(p, q, s)] = modelo.addVar(vtype='I', name= 'gE_pqs_{},{},{}'.format(p, q, s))
+        vars['gE_pqs'][(p, q, s)] = modelo.addVar(vtype='C', name= 'gE_pqs_{},{},{}'.format(p, q, s))
   # gE_s
   for s in datos['S']:
-    vars['gE_s'][s] = modelo.addVar(vtype='I', name= 'gE_s_{}'.format(s))
+    vars['gE_s'][s] = modelo.addVar(vtype='C', name= 'gE_s_{}'.format(s))
   # gP
   for s in datos['S']:
-    vars['gP'][s] = modelo.addVar(vtype='I', name= 'gP_{}'.format(s))
+    vars['gP'][s] = modelo.addVar(vtype='C', name= 'gP_{}'.format(s))
 
   # u_qs
   for q in datos['Q']:
@@ -174,12 +174,12 @@ def cargar_variables(modelo, datos):
   for p in datos['P']:
     for q in datos['Q']:
       for s in datos['S']:
-        vars['tau'][(p, q, s)] = modelo.addVar(vtype='I', name= 'tau_{},{},{}'.format(p, q, s))
+        vars['tau'][(p, q, s)] = modelo.addVar(vtype='C', name= 'tau_{},{},{}'.format(p, q, s))
 
   # tauD_ps
   for p in datos['P']:
     for s in datos['S']:
-      vars['tauD'][(p, s)] = modelo.addVar(vtype='I', name= 'tauD_{},{}'.format(p, s))
+      vars['tauD'][(p, s)] = modelo.addVar(vtype='C', name= 'tauD_{},{}'.format(p, s))
 
   # betaP_s
   for s in datos['S']:

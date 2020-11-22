@@ -1,4 +1,5 @@
 import pandas as pd
+import os
 
 contenidos_list = []
 for q in range(52):
@@ -19,4 +20,4 @@ for q in range(52):
 
 df = pd.DataFrame.from_dict(contenidos_list)
 
-df.to_csv("./contenidos.csv")
+df.to_csv(os.path.join(os.getcwd(), "input", "contenidos.csv"))

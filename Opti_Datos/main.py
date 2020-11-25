@@ -9,6 +9,7 @@ from crear_modelo import cargar_datos, cargar_variables, cargar_restricciones, c
 from guardar_datos import guardar_variables, guardar_restricciones
 from generar_graficos import generar_graficos
 
+
 if not os.path.exists(os.path.join(os.getcwd(), 'output')):
     os.makedirs(os.path.join(os.getcwd(), 'output'))
 if not os.path.exists(os.path.join(os.getcwd(), 'output', 'restricciones')):
@@ -32,29 +33,30 @@ contenidos = pd.read_csv(RUTA_ARCHIVO_CONTENIDOS)
 # Usamos pandas
 parametros_dict = cargar_datos(personal, encargados, otros_datos, contenidos)
 
-# creamos el modelo
-m = Model()
+if __name__ == '__main__':
+    # creamos el modelo
+    m = Model()
 
-# cargamos las variables
-variables_dict = cargar_variables(m, parametros_dict)
-m.update()
+    # cargamos las variables
+    variables_dict = cargar_variables(m, parametros_dict)
+    m.update()
 
 
-# cargamos las restricciones
-restricciones_dict = cargar_restricciones(m, variables_dict, parametros_dict)
-m.update()
+    # cargamos las restricciones
+    restricciones_dict = cargar_restricciones(m, variables_dict, parametros_dict)
+    m.update()
 
-# cargamos la función objetivo
-cargar_funcion_objetivo(m, variables_dict, parametros_dict)
-m.update()
+    # cargamos la función objetivo
+    cargar_funcion_objetivo(m, variables_dict, parametros_dict)
+    m.update()
 
-# optimizamos
-m.optimize()
+    # optimizamos
+    m.optimize()
 
-guardar_variables(variables_dict)
+    guardar_variables(variables_dict)
 
-guardar_restricciones(restricciones_dict)
+    guardar_restricciones(restricciones_dict)
 
-#tabla de que contenido se libera que semana
-generar_graficos(parametros_dict, variables_dict, parametros_dict)
+    #tabla de que contenido se libera que semana
+    generar_graficos()
 

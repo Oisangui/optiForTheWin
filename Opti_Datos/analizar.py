@@ -53,3 +53,4 @@ def analizar(subcarpeta: str):
 
     # tabla de que contenido se libera que semana
     generar_graficos(subcarpeta)
+    return m

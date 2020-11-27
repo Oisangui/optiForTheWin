@@ -111,7 +111,6 @@ def graph_contenido_semana(df_contenido_semana: pd.DataFrame, subcarpeta):
     print(f"Generando gráfico de contenido semana para {subcarpeta}")
     # grafico de cuantos contenidos se ven por semana
     df = df_contenido_semana.groupby('semana').count().reset_index()
-    print(df)
     plot = df.reindex().plot.bar(x='semana', y='contenido', title="Numero de contenidos publicados por semana")
     plot.set_xlabel("Semana")
     plot.set_ylabel("Número de contenidos publicados")
@@ -127,7 +126,6 @@ def graph_atraso_contenido(df_atraso_contenido: pd.DataFrame, subcarpeta):
     print(f"Generando gráfico de atraso contenido para {subcarpeta}")
     # grafico de cuantos contenidos se ven por semana
     df = df_atraso_contenido.groupby('atraso').count().reset_index()
-    print(df)
     plot = df.reindex().plot.bar(x="atraso", y="contenido", title="Frecuencia de días de atraso")
     plot.set_xlabel("Días de atraso")
     plot.set_ylabel("Frecuencia")

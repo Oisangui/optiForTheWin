@@ -102,7 +102,10 @@ def graph_contenido_semana(df_contenido_semana: pd.DataFrame):
     # grafico de cuantos contenidos se ven por semana
     df = df_contenido_semana.groupby('semana').count().reset_index()
     print(df)
-    fig = df.reindex().plot.bar(x='semana', y='contenido').get_figure()
+    plot = df.reindex().plot.bar(x='semana', y='contenido', title="Numero de contenidos publicados por semana")
+    plot.set_xlabel("Semana")
+    plot.set_ylabel("Número de contenidos publicados")
+    fig = plot.get_figure()
     fig.savefig(
         os.path.join(os.getcwd(), "output", "resultados",
                  "grafico_contenido_semana.png")
@@ -112,7 +115,10 @@ def graph_atraso_contenido(df_atraso_contenido: pd.DataFrame):
     # grafico de cuantos contenidos se ven por semana
     df = df_atraso_contenido.groupby('atraso').count().reset_index()
     print(df)
-    fig = df.reindex().plot.bar(x="atraso", y="contenido").get_figure()
+    plot = df.reindex().plot.bar(x="atraso", y="contenido", title="Frecuencia de días de atraso")
+    plot.set_xlabel("Días de atraso")
+    plot.set_ylabel("Frecuencia")
+    fig = plot.get_figure()
     fig.savefig(
         os.path.join(os.getcwd(), "output", "resultados",
                  "grafico_atraso_contenido.png")
@@ -120,7 +126,10 @@ def graph_atraso_contenido(df_atraso_contenido: pd.DataFrame):
     
 def graph_contenido_semana_depto(df_contenido_semana: pd.DataFrame):
     # grafico de cuantos contenidos se ven por semana
-    fig = df_contenido_semana.groupby(['semana', 'departamento']).count().unstack('departamento').plot.bar(y="contenido").get_figure()
+    plot = df_contenido_semana.groupby(['semana', 'departamento']).count().unstack('departamento').plot.bar(y="contenido", title="Número de contenidos publicados por semana por departamento")       
+    plot.set_xlabel("Semana")
+    plot.set_ylabel("Número de contenidos publicados")
+    fig = plot.get_figure()
     fig.savefig(
         os.path.join(os.getcwd(), "output", "resultados",
                  "grafico_contenido_semana_depto.png")
@@ -145,6 +154,9 @@ def graph_tiempo_semana(datos, variables_dict):
             datos["S"], [tiempo_total_semanal_depto[(d, s)] for s in datos["S"]], label=d)
         handless.append(handle)
     plt.legend(handles=handless)
+    plt.title("Tiempo semanal dedicado por departamento")
+    plt.xlabel("Semana")
+    plt.ylabel("Tiempo")
     plt.savefig(os.path.join(os.getcwd(), "output", "resultados",
                              "grafico_tiempo_semanal_depto.png"))
     plt.close()
@@ -163,6 +175,9 @@ def graph_difusion_semana(datos, variables_dict):
             sum(variables_dict["tauD"].loc[str((p, s))].X for p in datos["P"]))
 
     plt.plot(tiempo_difusion["index"], tiempo_difusion["value"])
+    plt.title("Tiempo total de difusión semanal")
+    plt.xlabel("Semana")
+    plt.ylabel("Tiempo")
     plt.savefig(os.path.join(os.getcwd(), "output", "resultados",
                              "grafico_tiempo_difusion_semanal.png"))
     plt.close()

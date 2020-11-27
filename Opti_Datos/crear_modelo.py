@@ -89,7 +89,7 @@ def cargar_datos(personal, encargados, otros_datos, contenidos):
     datos['UP'] = encargados.mean()['max_personas_video']
 
     # Cargamos el LD (horas minimas dedicadas a difusion)
-    datos['LD'] = 1 #encargados.mean()['horas_difusion']
+    datos['LD'] = encargados.mean()['horas_difusion']
 
     datos['E'] = otros_datos['min_horas_video']
 

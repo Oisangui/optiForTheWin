@@ -240,6 +240,8 @@ if __name__ == '__main__':
     generar_graficos("min_difusion_publicidad_10")
     generar_graficos("cantidad_personas_contenido")
     generar_graficos("cantidad_personas_contenido_1")
+    generar_graficos("tiempo_max_persona_mas_5")
+    generar_graficos("tiempo_max_persona_mas_10")
     # generar_graficos("max_semanas_atraso") # no tiene solucion
     # generar_graficos("max_semanas_atraso_3") # se demora mucho, lo dejé para después
     # generar_graficos("max_semanas_atraso_2") # se demora muuuucho (pero menos que el anterior), también lo dejé para después

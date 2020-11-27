@@ -1,18 +1,19 @@
 from analizar import analizar
 import pandas as pd
+import os
 if __name__ == "__main__":
     to_run = [
     "original",
-    #"presupuesto",
-    ##"presupuesto_0",
-    ##"tiempo_minimo_video",
+    "presupuesto",
+    "presupuesto_0",
+    "tiempo_minimo_video",
     #"tiempo_minimo_video_2", # no tiene solucion
-    #"min_difusion_publicidad",
-    #"min_difusion_publicidad_5",
-    #"min_difusion_publicidad_10",
-    ##"cantidad_personas_contenido",
+    "min_difusion_publicidad",
+    "min_difusion_publicidad_5",
+    "min_difusion_publicidad_10",
+    "cantidad_personas_contenido",
     "tiempo_max_persona_mas_5",
-    ##"tiempo_max_persona_mas_10",
+    "tiempo_max_persona_mas_10",
     #"max_semanas_atraso", #no tiene solucion
     #"max_semanas_atraso_3", # se demora mucho, lo dejé para después
     #"max_semanas_atraso_2", # se demora muuuucho (pero menos que el anterior), también lo dejé para después
@@ -41,10 +42,13 @@ if __name__ == "__main__":
     df = pd.DataFrame(data)
     df = df.set_index(df['index']).drop(columns=['index'])
     print(df)
+    if not os.path.exists(os.path.join(os.getcwd(), "graficos_comparacion")):
+        os.makedirs(os.path.join(os.getcwd(), "graficos_comparacion"))
     for col in df.columns:
         ax = df[[col]].plot.bar(title=col)
+        ax.set_xticklabels(ax.get_xticklabels(), rotation="horizontal")
         fig = ax.get_figure()
-        fig.savefig(f'sensibilidad_{col}.png')
+        fig.savefig(os.path.join(os.getcwd(), "graficos_comparacion", f'sensibilidad_{col}.png'))
 
 
     print(df)

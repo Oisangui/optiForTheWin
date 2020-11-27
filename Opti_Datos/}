@@ -32,7 +32,7 @@ def load_file(subcarpeta, filename):
 
 
 def generar_graficos(subcarpeta):
-    datos, variables_dict = load_data(subcarpeta)[::-1]
+    datos, variables_dict = load_data()[::-1]
     vars_ = (datos, variables_dict)
     df_contenido_semana = get_contenido_semana_departamento_dict(*vars_)
     df_contenido_semana.to_csv(
@@ -157,12 +157,12 @@ def graph_tiempo_semana(datos, variables_dict, subcarpeta):
     plt.title("Tiempo semanal dedicado por departamento")
     plt.xlabel("Semana")
     plt.ylabel("Tiempo")
-    plt.savefig(os.path.join(os.getcwd(), "output", subcarpeta, "resultados",
+    plt.savefig(os.path.join(os.getcwd(), "output", subcarpeta,  "resultados",
                              "grafico_tiempo_semanal_depto.png"))
     plt.close()
 
 
-def graph_difusion_semana(datos, variables_dict, subcarpeta):
+def graph_difusion_semana(datos, variables_dict):
     # grafico de tiempo total de difusion por semana
     tiempo_difusion = {
         "index": list(),
@@ -178,19 +178,19 @@ def graph_difusion_semana(datos, variables_dict, subcarpeta):
     plt.title("Tiempo total de difusión semanal")
     plt.xlabel("Semana")
     plt.ylabel("Tiempo")
-    plt.savefig(os.path.join(os.getcwd(), "output", subcarpeta, "resultados",
+    plt.savefig(os.path.join(os.getcwd(), "output", "resultados",
                              "grafico_tiempo_difusion_semanal.png"))
     plt.close()
 
 
-def publi_lista(datos, variables_dict, subcarpeta):
+def publi_lista(datos, variables_dict):
     # lista de cuando se compra publicidad
     lista_semanas_publicidad = list()
     for s in datos["S"]:
         if variables_dict["betaP"][s].X == 1:
             lista_semanas_publicidad.append(s)
-    with open(os.path.join("output", "resultados", subcarpeta, "semanas_publicidad.csv"), "w") as file:
+    with open(os.path.join("output", "resultados", "semanas_publicidad.csv"), "w") as file:
         file.write(",".join(map(str, lista_semanas_publicidad)))
 
 if __name__ == '__main__':
-    generar_graficos("basico")
+    generar_graficos()

@@ -1,6 +1,20 @@
 from gurobipy import GRB
+import pandas as pd
+import os
 
-def cargar_datos(personal, encargados, otros_datos, contenidos):
+def cargar_datos(subcarpeta):
+    RUTA_ARCHIVO_PERSONAL = os.path.join(
+        os.getcwd(), "input", subcarpeta, "encuesta_personal.csv")
+    RUTA_ARCHIVO_ENCARGADOS = os.path.join(
+        os.getcwd(), "input", subcarpeta, "encuesta_encargados.csv")
+    RUTA_OTROS_DATOS = os.path.join(os.getcwd(), "input", subcarpeta, "otros_datos.csv")
+    RUTA_ARCHIVO_CONTENIDOS = os.path.join(os.getcwd(), "input", subcarpeta, "contenidos.csv")
+
+    personal = pd.read_csv(RUTA_ARCHIVO_PERSONAL)
+    encargados = pd.read_csv(RUTA_ARCHIVO_ENCARGADOS)
+    otros_datos = pd.read_csv(RUTA_OTROS_DATOS)
+    contenidos = pd.read_csv(RUTA_ARCHIVO_CONTENIDOS)
+
     datos = dict(
         a = dict(),
         q = dict(), # { (q, s): 1/0 }

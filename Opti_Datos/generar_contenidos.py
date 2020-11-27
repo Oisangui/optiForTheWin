@@ -1,7 +1,14 @@
 import pandas as pd
 import os
+import sys
 
 CANTIDAD_SEMANAS = 8
+
+if len(sys.argv != 1):
+    print("Uso: se pasa el nombre de la subcarpeta en argv y se generan los contenidos en ella")
+
+subcarpeta = sys.argv[1]
+
 
 contenidos_list = []
 for q in range(13 * CANTIDAD_SEMANAS): # range(52):
@@ -22,4 +29,4 @@ for q in range(13 * CANTIDAD_SEMANAS): # range(52):
 
 df = pd.DataFrame.from_dict(contenidos_list)
 
-df.to_csv(os.path.join(os.getcwd(), "input", "contenidos.csv"))
+df.to_csv(os.path.join(os.getcwd(), "input", subcarpeta, "contenidos.csv"))

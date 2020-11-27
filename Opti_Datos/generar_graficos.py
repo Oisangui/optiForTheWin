@@ -43,8 +43,9 @@ def generar_graficos(subcarpeta):
     graph_contenido_semana(df_contenido_semana, subcarpeta)
     graph_contenido_semana_depto(df_contenido_semana, subcarpeta)
     
-    df_atraso_contenido = get_atraso_contenido_semana_dict(datos, variables_dict)
+    df_atraso_contenido = get_atraso_contenido_semana_depto_dict(datos, variables_dict)
     graph_atraso_contenido(df_atraso_contenido, subcarpeta)
+    graph_atraso_contenido_depto(df_atraso_contenido, subcarpeta)
     
     #publi_lista(datos, variables_dict, subcarpeta)
     
@@ -97,6 +98,23 @@ def get_atraso_contenido_semana_dict(
         })
     return pd.DataFrame(contenido_semana)
     
+def get_atraso_contenido_semana_depto_dict(
+        datos: dict, variables_dict: dict) -> pd.DataFrame:
+    contenido_semana = list()
+    print(variables_dict['u'])
+    print(type(variables_dict['u'].index[0]))
+    print("atraso")
+    print(variables_dict["r"].index[1])
+    for q in datos["Q"]:
+        for d in datos["D"]:
+            if datos["dQ"][(q, d)] == 1:
+                contenido_semana.append({
+                    'contenido': q,
+                    'atraso': round(variables_dict["r"].loc[q].X),
+                    'depto': d
+                })
+    return pd.DataFrame(contenido_semana)
+    
     
 
 
@@ -112,6 +130,7 @@ def graph_contenido_semana(df_contenido_semana: pd.DataFrame, subcarpeta):
         os.path.join(os.getcwd(), "output", subcarpeta, "resultados",
                  "grafico_contenido_semana.png")
     )
+    plt.close()
     
 def graph_atraso_contenido(df_atraso_contenido: pd.DataFrame, subcarpeta):
     # grafico de cuantos contenidos se ven por semana
@@ -125,6 +144,21 @@ def graph_atraso_contenido(df_atraso_contenido: pd.DataFrame, subcarpeta):
         os.path.join(os.getcwd(), "output", subcarpeta, "resultados",
                  "grafico_atraso_contenido.png")
     )
+    plt.close()
+    
+    
+def graph_atraso_contenido_depto(df_contenido_semana: pd.DataFrame, subcarpeta):
+    # grafico de cuantos contenidos se ven por semana
+    plot = df_contenido_semana.groupby(['atraso', 'depto']).count().unstack('depto').plot.bar(y="contenido", title="Frecuencia de atraso de contenidos por departamento")       
+    plot.set_xlabel("Días de atraso")
+    plot.set_ylabel("Fecuencia")
+    fig = plot.get_figure()
+    fig.savefig(
+        os.path.join(os.getcwd(), "output", subcarpeta, "resultados",
+                 "grafico_atraso_contenido_depto.png")
+    )
+    plt.close()
+
     
 def graph_contenido_semana_depto(df_contenido_semana: pd.DataFrame, subcarpeta):
     # grafico de cuantos contenidos se ven por semana
@@ -136,6 +170,7 @@ def graph_contenido_semana_depto(df_contenido_semana: pd.DataFrame, subcarpeta):
         os.path.join(os.getcwd(), "output", subcarpeta, "resultados",
                  "grafico_contenido_semana_depto.png")
     )
+    plt.close()
 
 
 def graph_tiempo_semana(datos, variables_dict, subcarpeta):
@@ -195,4 +230,16 @@ def publi_lista(datos, variables_dict, subcarpeta):
         file.write(",".join(map(str, lista_semanas_publicidad)))
 
 if __name__ == '__main__':
-    generar_graficos("basico")
+    generar_graficos("original")
+    generar_graficos("presupuesto")
+    generar_graficos("presupuesto_0")
+    generar_graficos("tiempo_minimo_video")
+    # generar_graficos("tiempo_minimo_video_2") # no tiene solucion
+    generar_graficos("min_difusion_publicidad")
+    generar_graficos("min_difusion_publicidad_5")
+    generar_graficos("min_difusion_publicidad_10")
+    generar_graficos("cantidad_personas_contenido")
+    generar_graficos("cantidad_personas_contenido_1")
+    # generar_graficos("max_semanas_atraso") # no tiene solucion
+    # generar_graficos("max_semanas_atraso_3") # se demora mucho, lo dejé para después
+    # generar_graficos("max_semanas_atraso_2") # se demora muuuucho (pero menos que el anterior), también lo dejé para después

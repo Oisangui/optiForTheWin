@@ -9,6 +9,7 @@ from generar_graficos import generar_graficos
 
 
 def analizar(subcarpeta: str):
+    print(f"Analizando {subcarpeta}")
     if not os.path.exists(os.path.join(os.getcwd(), 'output')):
         os.makedirs(os.path.join(os.getcwd(), 'output'))
     if not os.path.exists(os.path.join(os.getcwd(), 'output', subcarpeta)):
@@ -53,4 +54,6 @@ def analizar(subcarpeta: str):
 
     # tabla de que contenido se libera que semana
     generar_graficos(subcarpeta)
+    print(f"Analizado {subcarpeta}!")
+    print("\n\n\n\n\n")
     return m

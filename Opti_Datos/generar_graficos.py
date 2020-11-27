@@ -32,6 +32,7 @@ def load_file(subcarpeta, filename):
 
 
 def generar_graficos(subcarpeta):
+    print("Generando gráficos")
     datos, variables_dict = load_data(subcarpeta)[::-1]
     vars_ = (datos, variables_dict)
     df_contenido_semana = get_contenido_semana_departamento_dict(*vars_)
@@ -49,14 +50,12 @@ def generar_graficos(subcarpeta):
     
     #publi_lista(datos, variables_dict, subcarpeta)
     
-    print(datos["S"])
+    print("Graficos generados!")
     
     
 def get_contenido_semana_dict(
         datos: dict, variables_dict: dict) -> pd.DataFrame:
     contenido_semana = list()
-    print(variables_dict['u'])
-    print(type(variables_dict['u'].index[0]))
     for q in datos["Q"]:
         for s in datos["S"]:
             if(variables_dict["u"].loc[str((q, s))].X == 1):
@@ -70,8 +69,6 @@ def get_contenido_semana_dict(
 def get_contenido_semana_departamento_dict(
         datos: dict, variables_dict: dict) -> pd.DataFrame:
     contenido_semana = list()
-    print(variables_dict['u'])
-    print(type(variables_dict['u'].index[0]))
     for q in datos["Q"]:
         for s in datos["S"]:
             if(variables_dict["u"].loc[str((q, s))].X == 1):
@@ -87,10 +84,6 @@ def get_contenido_semana_departamento_dict(
 def get_atraso_contenido_semana_dict(
         datos: dict, variables_dict: dict) -> pd.DataFrame:
     contenido_semana = list()
-    print(variables_dict['u'])
-    print(type(variables_dict['u'].index[0]))
-    print("atraso")
-    print(variables_dict["r"].index[1])
     for q in datos["Q"]:
         contenido_semana.append({
             'contenido': q,
@@ -101,10 +94,6 @@ def get_atraso_contenido_semana_dict(
 def get_atraso_contenido_semana_depto_dict(
         datos: dict, variables_dict: dict) -> pd.DataFrame:
     contenido_semana = list()
-    print(variables_dict['u'])
-    print(type(variables_dict['u'].index[0]))
-    print("atraso")
-    print(variables_dict["r"].index[1])
     for q in datos["Q"]:
         for d in datos["D"]:
             if datos["dQ"][(q, d)] == 1:
@@ -119,6 +108,7 @@ def get_atraso_contenido_semana_depto_dict(
 
 
 def graph_contenido_semana(df_contenido_semana: pd.DataFrame, subcarpeta):
+    print(f"Generando gráfico de contenido semana para {subcarpeta}")
     # grafico de cuantos contenidos se ven por semana
     df = df_contenido_semana.groupby('semana').count().reset_index()
     print(df)
@@ -131,8 +121,10 @@ def graph_contenido_semana(df_contenido_semana: pd.DataFrame, subcarpeta):
                  "grafico_contenido_semana.png")
     )
     plt.close()
+    print(f"Generado gráfico de contenido semana para {subcarpeta}!")
     
 def graph_atraso_contenido(df_atraso_contenido: pd.DataFrame, subcarpeta):
+    print(f"Generando gráfico de atraso contenido para {subcarpeta}")
     # grafico de cuantos contenidos se ven por semana
     df = df_atraso_contenido.groupby('atraso').count().reset_index()
     print(df)
@@ -145,10 +137,12 @@ def graph_atraso_contenido(df_atraso_contenido: pd.DataFrame, subcarpeta):
                  "grafico_atraso_contenido.png")
     )
     plt.close()
+    print(f"Generado gráfico de atraso contenido para {subcarpeta}!")
     
     
 def graph_atraso_contenido_depto(df_contenido_semana: pd.DataFrame, subcarpeta):
     # grafico de cuantos contenidos se ven por semana
+    print(f"Generando gráfico de atraso contenido depto para {subcarpeta}")
     plot = df_contenido_semana.groupby(['atraso', 'depto']).count().unstack('depto').plot.bar(y="contenido", title="Frecuencia de atraso de contenidos por departamento")       
     plot.set_xlabel("Días de atraso")
     plot.set_ylabel("Fecuencia")
@@ -158,10 +152,12 @@ def graph_atraso_contenido_depto(df_contenido_semana: pd.DataFrame, subcarpeta):
                  "grafico_atraso_contenido_depto.png")
     )
     plt.close()
+    print(f"Generado gráfico de atraso contenido depto para {subcarpeta}!")
 
     
 def graph_contenido_semana_depto(df_contenido_semana: pd.DataFrame, subcarpeta):
     # grafico de cuantos contenidos se ven por semana
+    print(f"Generando gráfico de contenido semana para {subcarpeta}")
     plot = df_contenido_semana.groupby(['semana', 'departamento']).count().unstack('departamento').plot.bar(y="contenido", title="Número de contenidos publicados por semana por departamento")       
     plot.set_xlabel("Semana")
     plot.set_ylabel("Número de contenidos publicados")
@@ -171,13 +167,14 @@ def graph_contenido_semana_depto(df_contenido_semana: pd.DataFrame, subcarpeta):
                  "grafico_contenido_semana_depto.png")
     )
     plt.close()
+    print(f"Generado gráfico de contenido semana depto para {subcarpeta}!")
 
 
 def graph_tiempo_semana(datos, variables_dict, subcarpeta):
     # grafico de tiempo total de videos semanal por depto
+    print(f"Generando gráfico de tiempo semana para {subcarpeta}")
     tiempo_total_semanal_depto = {
     }
-    print(variables_dict['tau'])
     for d in datos["D"]:
         for s in datos["S"]:
             tiempo_total_semanal_depto[(d, s)] = (
@@ -197,10 +194,12 @@ def graph_tiempo_semana(datos, variables_dict, subcarpeta):
     plt.savefig(os.path.join(os.getcwd(), "output", subcarpeta, "resultados",
                              "grafico_tiempo_semanal_depto.png"))
     plt.close()
+    print(f"Generado gráfico de tiempo semana para {subcarpeta}!")
 
 
 def graph_difusion_semana(datos, variables_dict, subcarpeta):
     # grafico de tiempo total de difusion por semana
+    print(f"Generando gráfico de difusion semana para {subcarpeta}")
     tiempo_difusion = {
         "index": list(),
         "value": list()
@@ -218,6 +217,7 @@ def graph_difusion_semana(datos, variables_dict, subcarpeta):
     plt.savefig(os.path.join(os.getcwd(), "output", subcarpeta, "resultados",
                              "grafico_tiempo_difusion_semanal.png"))
     plt.close()
+    print(f"Generado gráfico de difusion semana para {subcarpeta}!")
 
 
 def publi_lista(datos, variables_dict, subcarpeta):

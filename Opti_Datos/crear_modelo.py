@@ -3,6 +3,7 @@ import pandas as pd
 import os
 
 def cargar_datos(subcarpeta):
+    print(f"Cargando datos para {subcarpeta}")
     RUTA_ARCHIVO_PERSONAL = os.path.join(
         os.getcwd(), "input", subcarpeta, "encuesta_personal.csv")
     RUTA_ARCHIVO_ENCARGADOS = os.path.join(
@@ -107,10 +108,12 @@ def cargar_datos(subcarpeta):
 
     datos['E'] = otros_datos['min_horas_video']
 
+    print(f"Cargados datos para {subcarpeta}!")
     return datos
 
 # carga de variables
 def cargar_variables(modelo, datos):
+    print(f"Cargando variables")
     vars = dict(
       u = dict(),
       tau = dict(),
@@ -170,11 +173,13 @@ def cargar_variables(modelo, datos):
     # betaP_s
     for s in datos['S']:
         vars['betaP'][s] = modelo.addVar(vtype='B', name= 'betaP_{}'.format(s))
+    print(f"Cargadas variables!")
     return vars
 
 
 # carga de restricciones
 def cargar_restricciones(modelo, variables, datos):
+    print(f"Cargando restricciones")
     res = dict(
         nat_tau=dict(),
         nat_g_pqs=dict(),
@@ -338,6 +343,7 @@ def cargar_restricciones(modelo, variables, datos):
     for q in datos['Q']:
         res['nat_r'][q] = modelo.addConstr(variables['r'][q] >= 0)
     
+    print(f"Cargadas restricciones!")
     return res
 
 

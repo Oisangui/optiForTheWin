@@ -49,6 +49,4 @@ if __name__ == "__main__":
         ax.set_xticklabels(ax.get_xticklabels(), rotation="horizontal")
         fig = ax.get_figure()
         fig.savefig(os.path.join(os.getcwd(), "graficos_comparacion", f'sensibilidad_{col}.png'))
-
-
     print(df)

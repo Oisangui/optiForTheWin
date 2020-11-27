@@ -65,7 +65,7 @@ def cargar_datos(personal, encargados, otros_datos, contenidos):
     datos['M'] = otros_datos['presupuesto'][0]
 
     # Cargamos el KR
-    datos['KR'] = otros_datos['max_dias_atraso']
+    datos['KR'] = otros_datos['max_semanas_atraso']
 
     # Cargamos el hE
     for p, row in personal.iterrows():
@@ -89,7 +89,7 @@ def cargar_datos(personal, encargados, otros_datos, contenidos):
     datos['UP'] = encargados.mean()['max_personas_video']
 
     # Cargamos el LD (horas minimas dedicadas a difusion)
-    datos['LD'] = encargados.mean()['horas_difusion']
+    datos['LD'] = 1 #encargados.mean()['horas_difusion']
 
     datos['E'] = otros_datos['min_horas_video']
 
@@ -323,7 +323,7 @@ def cargar_restricciones(modelo, variables, datos):
 
     for q in datos['Q']:
         res['nat_r'][q] = modelo.addConstr(variables['r'][q] >= 0)
-
+    
     return res
 
 

@@ -1,8 +1,10 @@
 import pandas as pd
 import os
 
+CANTIDAD_SEMANAS = 8
+
 contenidos_list = []
-for q in range(52):
+for q in range(13 * CANTIDAD_SEMANAS): # range(52):
     """
     Cada semana hay 6 contenidos de básica, 2 de inglés,
     3 de orientación, 1 de educación física y 1 de música

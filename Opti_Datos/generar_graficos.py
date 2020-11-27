@@ -2,6 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import os
 import json
+import math
 
 
 def load_data() -> tuple:
@@ -29,6 +30,25 @@ def load_file(filename):
     df = df.set_index(df.loc[:, 'index'])
     return df
 
+
+def generar_graficos():
+    datos, variables_dict = load_data()[::-1]
+    vars_ = (datos, variables_dict)
+    df_contenido_semana = get_contenido_semana_departamento_dict(*vars_)
+    df_contenido_semana.to_csv(
+        os.path.join("output", "resultados", "contenido_semana.csv")
+    )
+    graph_tiempo_semana(*vars_)
+    graph_difusion_semana(*vars_)
+    graph_contenido_semana(df_contenido_semana)
+    graph_contenido_semana_depto(df_contenido_semana)
+    
+    df_atraso_contenido = get_atraso_contenido_semana_dict(datos, variables_dict)
+    graph_atraso_contenido(df_atraso_contenido)
+    
+    print(datos["S"])
+    
+    
 def get_contenido_semana_dict(
         datos: dict, variables_dict: dict) -> pd.DataFrame:
     contenido_semana = list()
@@ -44,25 +64,66 @@ def get_contenido_semana_dict(
     return pd.DataFrame(contenido_semana)
 
 
-def generar_graficos():
-    datos, variables_dict = load_data()[::-1]
-    vars_ = (datos, variables_dict)
-    df_contenido_semana = get_contenido_semana_dict(*vars_)
-    df_contenido_semana.to_csv(
-        os.path.join("output", "resultados", "contenido_semana.csv")
-    )
-    graph_tiempo_semana(*vars_)
-    graph_difusion_semana(*vars_)
-    graph_contenido_semana(df_contenido_semana)
+def get_contenido_semana_departamento_dict(
+        datos: dict, variables_dict: dict) -> pd.DataFrame:
+    contenido_semana = list()
+    print(variables_dict['u'])
+    print(type(variables_dict['u'].index[0]))
+    for q in datos["Q"]:
+        for s in datos["S"]:
+            if(variables_dict["u"].loc[str((q, s))].X == 1):
+                for d in datos["D"]:
+                    if datos["dQ"][q, d] == 1:
+                        contenido_semana.append({
+                            'contenido': q,
+                            'semana': s,
+                            'departamento': d
+                        })
+    return pd.DataFrame(contenido_semana)
+    
+def get_atraso_contenido_semana_dict(
+        datos: dict, variables_dict: dict) -> pd.DataFrame:
+    contenido_semana = list()
+    print(variables_dict['u'])
+    print(type(variables_dict['u'].index[0]))
+    print("atraso")
+    print(variables_dict["r"].index[1])
+    for q in datos["Q"]:
+        contenido_semana.append({
+            'contenido': q,
+            'atraso': round(variables_dict["r"].loc[q].X)
+        })
+    return pd.DataFrame(contenido_semana)
+    
+    
 
 
 def graph_contenido_semana(df_contenido_semana: pd.DataFrame):
+    # grafico de cuantos contenidos se ven por semana
     df = df_contenido_semana.groupby('semana').count().reset_index()
     print(df)
     fig = df.reindex().plot.bar(x='semana', y='contenido').get_figure()
     fig.savefig(
         os.path.join(os.getcwd(), "output", "resultados",
                  "grafico_contenido_semana.png")
+    )
+    
+def graph_atraso_contenido(df_atraso_contenido: pd.DataFrame):
+    # grafico de cuantos contenidos se ven por semana
+    df = df_atraso_contenido.groupby('atraso').count().reset_index()
+    print(df)
+    fig = df.reindex().plot.bar(x="atraso", y="contenido").get_figure()
+    fig.savefig(
+        os.path.join(os.getcwd(), "output", "resultados",
+                 "grafico_atraso_contenido.png")
+    )
+    
+def graph_contenido_semana_depto(df_contenido_semana: pd.DataFrame):
+    # grafico de cuantos contenidos se ven por semana
+    fig = df_contenido_semana.groupby(['semana', 'departamento']).count().unstack('departamento').plot.bar(y="contenido").get_figure()
+    fig.savefig(
+        os.path.join(os.getcwd(), "output", "resultados",
+                 "grafico_contenido_semana_depto.png")
     )
 
 

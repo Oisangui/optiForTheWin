@@ -4,7 +4,7 @@ from gurobipy import Model
 import os
 
 from crear_modelo import cargar_datos, cargar_variables, cargar_restricciones, cargar_funcion_objetivo
-from guardar_datos import guardar_variables, guardar_restricciones
+from guardar_datos import guardar_variables, guardar_restricciones, guardar_fo
 from generar_graficos import generar_graficos
 
 
@@ -19,7 +19,8 @@ def analizar(subcarpeta: str):
         os.makedirs(os.path.join(os.getcwd(), 'output', subcarpeta, 'resultados'))
     if not os.path.exists(os.path.join(os.getcwd(), 'output', subcarpeta, 'variables')):
         os.makedirs(os.path.join(os.getcwd(), 'output', subcarpeta, 'variables'))
-
+    if not os.path.exists(os.path.join(os.getcwd(), 'output', subcarpeta, 'valores')):
+        os.makedirs(os.path.join(os.getcwd(), 'output', subcarpeta, 'valores'))
 
     # cargamos los parámetros. Estos deben venir de los datos.
     # Usamos pandas
@@ -47,6 +48,8 @@ def analizar(subcarpeta: str):
     guardar_variables(variables_dict, subcarpeta)
 
     guardar_restricciones(restricciones_dict, subcarpeta)
+    
+    guardar_fo(m.ObjVal, subcarpeta)
 
     # tabla de que contenido se libera que semana
     generar_graficos(subcarpeta)

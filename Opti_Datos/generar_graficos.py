@@ -46,6 +46,8 @@ def generar_graficos(subcarpeta):
     df_atraso_contenido = get_atraso_contenido_semana_dict(datos, variables_dict)
     graph_atraso_contenido(df_atraso_contenido, subcarpeta)
     
+    #publi_lista(datos, variables_dict, subcarpeta)
+    
     print(datos["S"])
     
     

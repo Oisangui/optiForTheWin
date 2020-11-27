@@ -31,3 +31,8 @@ def guardar_restricciones(restricciones_dict, subcarpeta):
             df = pd.DataFrame.from_dict(vardict)
             df.to_csv(os.path.join("output", subcarpeta, "restricciones",
                                    f"{constraint_name}.csv"))
+                                   
+def guardar_fo(valor, subcarpeta):
+    with open(os.path.join("output", subcarpeta, "valores",
+                                   f"valor_fo.txt"), 'w') as file:
+        file.write(str(valor))

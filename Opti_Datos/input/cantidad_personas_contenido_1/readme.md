@@ -1,0 +1,1 @@
+Subcarpeta que varia la cantidad de personas trabajando en un mismo contenido, dejandolo en 1

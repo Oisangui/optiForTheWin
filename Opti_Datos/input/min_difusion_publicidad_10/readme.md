@@ -1,0 +1,1 @@
+Subcarpeta que varia el tiempo mínimo de difusion si se compra publicidad dejandolo en 10
